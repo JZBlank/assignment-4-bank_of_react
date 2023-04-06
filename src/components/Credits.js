@@ -8,20 +8,24 @@ import AccountBalance from './AccountBalance';
 import {Link} from 'react-router-dom';
 
 const Credits = (props) => {
-  
   // Create the list of Credit items
   let creditsView = () => {
-    const { credits } = props;
-    return credits.map((credit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
+    const creditsArray =  Array.from(props.credits);
+    return creditsArray.map((credit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
       let date = credit.date.slice(0,10); 
-      return <li key={credit.id}>{credit.amount} {credit.description} {date}</li>
+      return <li key={credit.id}>{credit.amount.toFixed(2)} {credit.description} {date}</li>
     });
   }
 
   // When user clicks Add Credit button, store user data and update current balance
   let handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addCredit(this.state.creditList);  // Update state in the top-level component (App.js)
+    props.addCredit({
+      id: props.credits.length + 1,
+      description: e.target[0].value,
+      amount: Number(e.target[1].value),
+      date: new Date().toJSON()
+    });
   }
   
 
@@ -37,12 +41,12 @@ const Credits = (props) => {
         <label>Description</label>
         <input type="text" name="description" />
         <label>Amount</label>
-        <input type="number" name="amount" />
+        <input type="number" step="any" name="amount" />
         <button type="submit" >Add Credit</button>
       </form>
 
       <br/><br/>
-      <AccountBalance accountBalance={props.accountBalance}/>
+      <AccountBalance accountBalance={props.accountBalance.toFixed(2)}/>
       <br></br>
       <Link to="/">Return to Home</Link>
     </div>

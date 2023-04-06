@@ -16,6 +16,13 @@ const Debits = (props) => {
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
     });
   }
+
+  // When user clicks Add Credit button, store user data and update current balance
+  let handleSubmit = (e) => {
+    e.preventDefault();
+  }
+  
+
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
@@ -24,7 +31,7 @@ const Debits = (props) => {
       {debitsView()}
       <br/><br/>
 
-      <form onSubmit={props.addDebit}>
+      <form onSubmit={handleSubmit}>
         <label>Description</label>
         <input type="text" name="description" />
         <label>Amount</label>

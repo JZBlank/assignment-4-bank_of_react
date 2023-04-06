@@ -29,27 +29,44 @@ class App extends Component {
     };
   }
 
-  // Update state's credit based on user input of new credits
-  addCredit = () => {
+  // Update current total balance 
+  updateBalance(){
+    let totalCredit = 0;
+    let totalDebit = 0;
 
-    const newCredit = {...this.state.creditList};
-    newCredit.push( {
-      "id": 6,
-      "description": "Tutoring",
-      "amount": 200.78,
-      "date": "2003-09-17T15:58:49Z"
+    for (let i = 0; i < this.state.creditList.length; i++){
+      totalCredit += this.state.creditList[i].amount;
+    }
+    for (let i = 0; i < this.state.debitList.length; i++){
+      totalDebit += this.state.debitList[i].amount;
+    }
+
+    this.setState({
+      accountBalance: totalCredit - totalDebit
     });
+  }
 
-    this.setState({creditList: newCredit});
+  // Update state's credit based on user input of new credits
+  addCredit = (creditInput) => {
+    // Add Credit Item to creditList
+    this.state.creditList.push({
+      id: creditInput.id,
+      description: creditInput.description,
+      amount: creditInput.amount,
+      date: creditInput.date
+    })
+    // Rerender to display updated information
+    this.setState({creditList: this.state.creditList}, () => this.updateBalance());
   }
 
   // Update state's debit based on user input of new debits
   addDebit = (debitInput) => {
+    const newDebitList = {...this.state.debitList};
+    this.setState({creditList: newDebitList}, () => this.updateBalance());
   }
 
   // Lifecycle Method componentDidMount() which includes the API requests using given endpoints 
   async componentDidMount() {
-
     let linkToCreditAPI = 'https://johnnylaicode.github.io/api/credits.json';
     let linkToDebitAPI = 'https://johnnylaicode.github.io/api/debits.json';
 
@@ -76,6 +93,8 @@ class App extends Component {
         console.log(error.debitResponse.status); // Print out error status code (e.g., 404)
       }
     }
+
+    this.updateBalance();
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
@@ -93,14 +112,14 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () => (<Credits credits={this.state.creditList} accountBalance={this.state.accountBalance} addCredit={this.addCredit} />) 
-    const DebitsComponent = () => (<Debits debits={this.state.debitList} accountBalance={this.state.accountBalance} addDebit={this.addDebit}   />) 
-
+    const CreditsComponent = () => (<Credits credits={this.state.creditList} accountBalance={this.state.accountBalance} addCredit={this.addCredit} updateBalance={this.updateBalance}/>) 
+    const DebitsComponent = () => (<Debits debits={this.state.debitList} accountBalance={this.state.accountBalance} addDebit={this.addDebit} updateBalance={this.updateBalance}  />) 
+    
+    
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
       <Router basename="/assignment-4-bank_of_react">
         <div>
-          
           <Route exact path="/" render={HomeComponent}/>
           <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
