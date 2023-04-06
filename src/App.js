@@ -35,10 +35,10 @@ class App extends Component {
     let totalDebit = 0;
 
     for (let i = 0; i < this.state.creditList.length; i++){
-      totalCredit += this.state.creditList[i].amount;
+      totalCredit += Number(this.state.creditList[i].amount.toFixed(2));
     }
     for (let i = 0; i < this.state.debitList.length; i++){
-      totalDebit += this.state.debitList[i].amount;
+      totalDebit += Number(this.state.debitList[i].amount.toFixed(2));
     }
 
     this.setState({
@@ -61,8 +61,15 @@ class App extends Component {
 
   // Update state's debit based on user input of new debits
   addDebit = (debitInput) => {
-    const newDebitList = {...this.state.debitList};
-    this.setState({creditList: newDebitList}, () => this.updateBalance());
+    // Add Debit Item to debitList
+    this.state.debitList.push({
+      id: debitInput.id,
+      description: debitInput.description,
+      amount: debitInput.amount,
+      date: debitInput.date
+    })
+    // Rerender to display updated information
+    this.setState({debitList: this.state.debitList}, () => this.updateBalance());
   }
 
   // Lifecycle Method componentDidMount() which includes the API requests using given endpoints 

@@ -10,16 +10,22 @@ import {Link} from 'react-router-dom';
 const Debits = (props) => {
   // Create the list of Debit items
   let debitsView = () => {
-    const { debits } = props;
-    return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
+    const DebitsArray =  Array.from(props.debits);
+    return DebitsArray.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
       let date = debit.date.slice(0,10);
-      return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
+      return <li key={debit.id}>{debit.amount.toFixed(2)} {debit.description} {date}</li>
     });
   }
 
   // When user clicks Add Credit button, store user data and update current balance
   let handleSubmit = (e) => {
     e.preventDefault();
+    props.addDebit({
+      id: props.debits.length + 1,
+      description: e.target[0].value,
+      amount: Number(e.target[1].value),
+      date: new Date().toJSON()
+    });
   }
   
 
@@ -35,7 +41,7 @@ const Debits = (props) => {
         <label>Description</label>
         <input type="text" name="description" />
         <label>Amount</label>
-        <input type="number" name="amount" />
+        <input type="number" step="any" name="amount" />
         <button type="submit">Add Debit</button>
       </form>
       <br/><br/>

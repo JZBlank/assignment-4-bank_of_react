@@ -46,7 +46,7 @@ const Credits = (props) => {
       </form>
 
       <br/><br/>
-      <AccountBalance accountBalance={props.accountBalance.toFixed(2)}/>
+      <AccountBalance accountBalance={props.accountBalance}/>
       <br></br>
       <Link to="/">Return to Home</Link>
     </div>
