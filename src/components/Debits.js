@@ -4,6 +4,7 @@ src/components/Debits.js
 The Debits component contains information for Debits page view.
 Note: You need to work on this file for the Assignment.
 ==================================================*/
+import AccountBalance from './AccountBalance';
 import {Link} from 'react-router-dom';
 
 const Debits = (props) => {
@@ -21,13 +22,18 @@ const Debits = (props) => {
       <h1>Debits</h1>
 
       {debitsView()}
+      <br/><br/>
 
       <form onSubmit={props.addDebit}>
+        <label>Description</label>
         <input type="text" name="description" />
+        <label>Amount</label>
         <input type="number" name="amount" />
         <button type="submit">Add Debit</button>
       </form>
-      <br/>
+      <br/><br/>
+      <AccountBalance accountBalance={props.accountBalance}/>
+      <br></br>
       <Link to="/">Return to Home</Link>
     </div>
   );
