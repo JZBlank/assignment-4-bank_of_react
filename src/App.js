@@ -5,7 +5,7 @@ This is the top-level component of the app.
 It contains the top-level state.
 ==================================================*/
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // Import other components
 import Home from './components/Home';
@@ -14,6 +14,9 @@ import LogIn from './components/Login';
 import Credits from './components/Credits';
 import Debits from './components/Debits';
 import axios from 'axios';
+
+/* Material UI Components */
+import {AppBar, Toolbar, Box, Typography} from "@mui/material/";
 
 class App extends Component {
   constructor() {  // Create and initialize state
@@ -127,6 +130,7 @@ class App extends Component {
     return (
       <Router basename="/assignment-4-bank_of_react">
         <div>
+          <Layout></Layout>
           <Route exact path="/" render={HomeComponent}/>
           <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
@@ -136,6 +140,22 @@ class App extends Component {
       </Router>
     );
   }
+}
+
+
+function Layout() {
+  return <div>
+    <AppBar sx={{backgroundColor: "#61DAFB"}}>
+      <Toolbar>
+          <Box display="flex" sx={{gap:"2rem", '& a': {textDecoration: 'none', color: 'black'}}}> 
+            <Link to="/userProfile"><Typography variant="h6">User Profile</Typography></Link>
+            <Link to="/login"><Typography variant="h6">Login</Typography></Link>
+            <Link to="/credits"><Typography variant="h6">Credits</Typography></Link>
+            <Link to="/debits"><Typography variant="h6">Debits</Typography></Link>
+          </Box>
+      </Toolbar>
+    </AppBar>
+  </div>
 }
 
 export default App;

@@ -8,6 +8,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import {Link} from 'react-router-dom';
 
+import {Container} from "@mui/material/";
+
 class LogIn extends Component {
   constructor (props) {  // Create and initialize state
     super(props)
@@ -43,7 +45,7 @@ class LogIn extends Component {
 
     // Render the login form (and call "handleSubmit" method when "Log In" button is clicked to submit form)
     return (
-      <div>
+      <Container sx={{mt:"100px"}}>
         <h1>Login</h1>
         
         <form onSubmit={this.handleSubmit}>
@@ -59,7 +61,7 @@ class LogIn extends Component {
         </form>  
         <br/>
         <Link to="/">Return to Home</Link>
-      </div>
+      </Container>
     );
   }
 }

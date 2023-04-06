@@ -7,6 +7,8 @@ Note: You need to work on this file for the Assignment.
 import AccountBalance from './AccountBalance';
 import {Link} from 'react-router-dom';
 
+import {Container} from "@mui/material/";
+
 const Debits = (props) => {
   // Create the list of Debit items
   let debitsView = () => {
@@ -31,7 +33,7 @@ const Debits = (props) => {
 
   // Render the list of Debit items and a form to input new Debit item
   return (
-    <div>
+    <Container sx={{mt:"100px"}}>
       <h1>Debits</h1>
 
       {debitsView()}
@@ -48,7 +50,7 @@ const Debits = (props) => {
       <AccountBalance accountBalance={props.accountBalance}/>
       <br></br>
       <Link to="/">Return to Home</Link>
-    </div>
+    </Container>
   );
 }
 
